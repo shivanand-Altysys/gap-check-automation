@@ -1,0 +1,7 @@
+﻿# Default owners for repository
+* @shivanand-Altysys
+
+# Automation suite ownership
+/.github/ @shivanand-Altysys
+/features/ @shivanand-Altysys
+/src/ @shivanand-Altysys
