@@ -1,0 +1,47 @@
+{
+  "name": "qa-automation-playwright-ts",
+  "version": "1.0.0",
+  "description": "TypeScript-based Playwright + Cucumber automation framework for login validation.",
+  "scripts": {
+    "clean": "if exist build (rmdir /s /q build)",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "prebuild": "npm run clean",
+    "pretest": "npm run typecheck",
+    "test": "npm run typecheck && cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --format progress --format html:reports/cucumber-report.html --format json:reports/cucumber-report.json --retry 1 --retry-tag-filter \"@flaky\" features/**/*.feature",
+    "test:admin": "npm run typecheck && cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts features/ui/admin/login.feature",
+    "test:smoke": "npm run typecheck && cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --tags \"@smoke\" --format progress --format html:reports/cucumber-report.html --format json:reports/cucumber-report.json features/**/*.feature",
+    "test:sanity": "npm run typecheck && cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --tags \"@sanity\" --format progress --format html:reports/cucumber-report.html --format json:reports/cucumber-report.json features/**/*.feature",
+    "test:regression": "npm run typecheck && cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --tags \"@regression\" --format progress --format html:reports/cucumber-report.html --format json:reports/cucumber-report.json features/**/*.feature",
+    "test:headed": "npm run typecheck && cross-env HEADLESS=false cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --format progress --format html:reports/cucumber-report.html --format json:reports/cucumber-report.json features/**/*.feature",
+    "test:parallel": "npm run typecheck && cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --parallel 4 --format progress --format html:reports/cucumber-report.html --format json:reports/cucumber-report.json features/**/*.feature",
+    "test:retry": "npm run typecheck && cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --retry 2 --format progress --format html:reports/cucumber-report.html --format json:reports/cucumber-report.json features/**/*.feature",
+    "test:ci": "npm run typecheck && cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --format json:reports/cucumber-report-ci.json features/**/*.feature",
+    "test:tag": "npm run typecheck && cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --format progress --format html:reports/cucumber-report.html --format json:reports/cucumber-report.json --tags"
+  },
+  "keywords": [
+    "playwright",
+    "cucumber",
+    "bdd",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.3.0",
+    "@playwright/test": "^1.54.1",
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^20.0.0",
+    "cross-env": "^7.0.3",
+    "pdfjs-dist": "^4.10.38",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.4.0",
+    "dotenv": "^16.6.1",
+    "js-yaml": "^4.1.0",
+    "playwright": "^1.54.1"
+  }
+}

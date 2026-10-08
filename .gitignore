@@ -1,0 +1,12 @@
+node_modules/
+playwright-report/
+test-results/
+reports/
+build/
+dist/
+.env
+*.tsbuildinfo
+.DS_Store
+.idea/
+.vscode/
+*.log
