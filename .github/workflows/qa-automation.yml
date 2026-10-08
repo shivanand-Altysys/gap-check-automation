@@ -1,0 +1,42 @@
+﻿name: QA Automation Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run typecheck
+        run: npm run typecheck
+
+      - name: Run Cucumber tests
+        run: npx cucumber-js --require-module ts-node/register --require src/support/**/*.ts --require src/step_definitions/**/*.ts --format progress --format html:reports/cucumber-report.html --format json:reports/cucumber-report.json features/**/*.feature
+
+      - name: Upload cucumber report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: reports/
+          if-no-files-found: ignore
